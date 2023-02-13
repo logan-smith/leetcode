@@ -10,8 +10,9 @@ pub struct Solution {}
 use std::collections::HashMap;
 impl Solution {
     pub fn top_k_frequent(nums: Vec<i32>, k: i32) -> Vec<i32> {
-        let mut counts = HashMap::new();
-        let mut top_vec = Vec::new();
+        let mut freq: Vec<Vec<i32>> = vec![Vec::new(); nums.len() + 1];
+        let mut counts = HashMap::with_capacity(nums.len()); // <k: num, v: count>
+        let mut top_vec: Vec<i32> = Vec::new();
 
         for num in nums {
             let count = counts
@@ -20,19 +21,11 @@ impl Solution {
                 .or_insert(1);
         }
 
-        for _ in 0..k {
-            // sorting k times is inefficient
-            let top = counts
-                .iter()
-                .max_by(|a, b| a.1.cmp(&b.1))
-                .unwrap()
-                .0
-                .clone();
-            top_vec.push(top);
-            counts.remove(&top);
+        for (num, count) in counts.into_iter() {
+            freq[count].push(num);
         }
 
-        top_vec
+        freq.into_iter().rev().flatten().take(k as usize).collect()
     }
 }
 
