@@ -14,6 +14,7 @@ Output: true
 #[allow(unused)]
 pub struct Solution {}
 
+use std::collections::HashMap;
 impl Solution {
     #[allow(unused)]
     pub fn is_anagram(s: String, t: String) -> bool {
